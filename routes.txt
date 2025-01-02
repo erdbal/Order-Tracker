@@ -1,0 +1,49 @@
+online reneldés és rendelt termék
+- index.html all orders
+- all-products.html table with all ordered products listed
+- order-details.html page of editable details of an order, contains all ordered products that belong to that order
+
+routing
+
+renderMW
+
+middlewares/order/
+    getAllOrdersMW
+    getOrderMW
+    saveOrderMW
+    deleteOrderMW
+    changeDeliveryStatusMW
+
+middlewares/product/    
+    getAllProductsMW
+    getProductMW
+    deleteProductMW
+    getProductsFromOrder
+
+GET / 
+    getAllOrdersMW
+    renderMW(index.html)
+
+POST / - change a products delivered status
+    changeDeliveryStatusMW
+
+GET /products/   
+    getAllProductsMW
+    renderMW(all-products.html)
+
+GET /product/:productId/delete - Delete a product with the id productId
+    getProductMW
+    deleteProductMW
+
+GET,POST /order/:orderId/edit  -order-details.html for editing
+    renderMW(order-details.html)
+    getOrderMW
+    saveOrderMW
+
+GET,POST /order/new  -order-details.html for a new item
+    renderMW(order-details.html)
+    saveOrderMW
+
+GET /order/:orderId/delete - delete an order with the id orderId
+    getOrderMW
+    deleteOrderMW

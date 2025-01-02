@@ -1,0 +1,101 @@
+<%- include('header') %>
+
+    <header>
+        <h1>Rendelés részletei</h1>
+    </header>
+    <main>
+        <section class="order-info">
+            <form method="POST">
+                <div class="form-group" style="display: flex; justify-content: space-between; align-items: baseline;">
+                    <label for="ordername" style="padding: 20px;">Név:</label>
+                    <input type="text" id="order-name" id="ordername" name="ordername" class="form-control" value="<%= (typeof order === 'undefined') ? '' : order.name %>">>
+                </div>
+                <div class="form-group" style="display: flex; justify-content: space-between; align-items: baseline;">
+                    <label for="expectedDelivery" style="padding: 20px; white-space: nowrap;">Várható érkezés:</label>
+                    <input type="date" id="order-date" id="expectedDelivery" name="expectedDelivery" class="form-control" value="<%= (typeof order === 'undefined') ? '' : new Date(order.expectedDelivery).toISOString().split('T')[0] %>">
+                </div>
+                <div class="form-group" style="display: flex; align-items: baseline;">
+                    <label for="arrived" style="padding: 20px;margin-right: 10px;">Megérkezett?</label>
+                    <input type="checkbox" class="form-control" id="arrived" name="arrived" <% if ((typeof order != 'undefined') && order.arrived){%>
+                    checked
+                    <% } %>
+                    >
+                </div>
+                <input type="submit" style="margin: 20px;" class="btn btn-primary save-button" value="Mentés" />
+            </form>
+
+
+        </section>
+        <section class="order-products">
+            <%if (typeof items != 'undefined' && items.length != 0) { %>
+                <h2>Termékek</h2>
+                <table id="product-list">
+                    <thead>
+                        <tr>
+                            <th>Termék neve</th>
+                            <th>Ár</th>
+                            <th>Garancia években</th>
+                            <th>Törlés</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% items.forEach(function(item){ %>
+                            <tr>
+                                <td>
+                                    <%= item.name %>
+                                </td>
+                                <td>
+                                    <%= item.price %>
+                                </td>
+                                <td>
+                                    <%= item.guarantee %>
+                                </td>
+                                <td>
+                                    <form action="/product/delete/<%= item._id %>" method="GET" style="display:inline;">
+                                        <button type="submit" class="btn btn-danger"
+                                            style="background-color: red;">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            <% }); %>
+                    </tbody>
+                </table>
+                <% } %>
+
+        </section>
+        <div style="display: flex; justify-content: space-between;">
+            <a href="/"><button style="background-color: #5bc0de;">Vissza</button></a>
+            <%if (typeof order != 'undefined') { %>
+                <button id="add-product-btn">Új termék hozzáadása</button>
+            <% } %>
+        </div>
+        </div>
+        <dialog>
+            <form method="POST">
+                <div class="form-group" style="display: flex;padding: 5px; justify-content: space-between; align-items: baseline;">
+                    <label for="name" style="white-space: nowrap; padding: 10px">Termék neve</label>
+                    <input type="text" class="form-control" id="name" name="name">
+                </div>
+                <div class="form-group" style="display: flex;padding: 10px; justify-content: space-between; align-items: baseline;"">
+                    <label for="price" style="white-space: nowrap; padding: 10px;">Ár</label>
+                    <input type="number" class="form-control" id="price" name="price">
+                </div>
+                <div class="form-group" style="display: flex;padding: 10px; justify-content: space-between; align-items: baseline;"">
+                    <label for="guarantee" style="white-space: nowrap; padding: 10px">Garancia</label>
+                    <input type="number" class="form-control" id="guarantee" name="guarantee">
+                </div>
+                <div style="display: flex;padding: 10px; justify-content: space-between; align-items: baseline;"">
+                <input type="submit" style="height: auto;" class="btn btn-primary" value="Mentés" />
+                <%if (typeof order === 'undefined') { %>
+                    <a class="btn btn-link" href="/">Mégsem</a>
+                    
+                <%} else {%>
+                    <a class="btn btn-link" href="/order/edit/<%= order._id %>">Mégsem</a>
+                <%  } %>
+                </div>
+            </form>
+        </dialog>
+
+    </main>
+
+    <%- include('footer') %>

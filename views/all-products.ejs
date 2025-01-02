@@ -1,0 +1,52 @@
+<%- include('header') %>
+
+<header>
+    <h1>Összes termék</h1>
+</header>
+<main>
+    <table>
+        <thead>
+            <tr>
+                <th>Termék neve</th>
+                <th>Ár</th>
+                <th>Garancia években</th>
+                <th>Szülő rendelés azonosítója</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <% items.forEach(function(item){ %>
+                <tr>
+                    <td>
+                        <%= item.name %>
+                    </td>
+                    <td>
+                        <%= item.price %>
+                    </td>
+                    <td>
+                        <%= item.guarantee %>
+                    </td>
+                    <td>
+                        <%= item._order %>
+                    </td>
+                    <td>
+                        <form action="/order/edit/<%= item._order %>" method="GET" style="display:inline;">
+                            <button type="submit" class="btn btn-danger" style="background-color: rgb(22, 132, 180);">Ugrás a rendeléshez</button>
+                        </form>
+                        <form action="/product/delete/<%= item._id %>" method="GET" style="display:inline;">
+                            <button type="submit" class="btn btn-danger" style="background-color: rgb(193, 23, 23);">Termék törlése</button>
+                        </form>
+                    </td>
+                    
+                    
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+    <div class="actions">
+        <a href="/">Vissza</a>
+    </div>
+</main>
+
+
+<%- include('footer') %>

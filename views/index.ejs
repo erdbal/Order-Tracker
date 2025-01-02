@@ -1,0 +1,54 @@
+<%- include('header') %>
+
+
+<header>
+    <h1>Rendelések</h1>
+</header>
+<main>
+    <div class="actions">
+        <a href="/products">Összes termék megtekintése</a>
+        <button id="add-order-btn">Új rendelés hozzáadása</button>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Név</th>
+                <th>Várható érkezés</th>
+                <th>Összérték</th>
+                <th>Státusz</th>
+                <th>Műveletek</th>
+            </tr>
+        </thead>          
+            <% orders.forEach(function(order){ %>
+                <tr data-id="<%= order._id%>" class="order-item">
+                    <td>
+                        <%= order.name %>
+                    </td>
+                    <td>
+                        <%= new Date(order.expectedDelivery).toISOString().split('T')[0]%>
+                    </td>
+                    <td>
+                        <%= order.orderTotal %>
+                    </td>
+                    <td>
+                        <% if (order.arrived) { %>
+                            <input type="checkbox" checked disabled>
+                        <%} else { %>
+                            <input type="checkbox" disabled>
+                        <%} %>
+                    </td>
+                    <td>
+                        <form action="/order/delete/<%= order._id %>" method="GET" style="display:inline;">
+                            <button type="submit" class="btn btn-danger" style="background-color: red;" >Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            <% }); %>
+    </table>
+</main>
+
+
+
+
+
+<%- include('footer') %>
